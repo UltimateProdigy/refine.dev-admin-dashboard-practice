@@ -21,6 +21,8 @@ import { useGetIdentity, useGetLocale } from "@refinedev/core";
 import { IconLanguage, IconMoon, IconSun } from "@tabler/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { Input } from "@chakra-ui/react";
+
 import React from "react";
 
 type IUser = {
@@ -70,6 +72,8 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
       {...stickyProps}
     >
       <HamburgerMenu />
+
+      <Input type="search" variant="filled" placeholder="Search" />
 
       <HStack>
         <Menu>

@@ -3,20 +3,23 @@ import {
   ThemedLayoutV2,
   notificationProvider,
 } from "@refinedev/chakra-ui";
-import { GitHubBanner, Refine } from "@refinedev/core";
+import { Refine } from "@refinedev/core";
+import { home } from "react-icons-kit/feather/home";
+import { mail } from "react-icons-kit/feather/mail";
+import { logOut } from "react-icons-kit/feather/logOut";
+import { phone } from "react-icons-kit/feather/phone";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
-import routerProvider, {
-  DocumentTitleHandler,
-  UnsavedChangesNotifier,
-} from "@refinedev/nextjs-router";
+import routerProvider from "@refinedev/nextjs-router";
 import type { NextPage } from "next";
 import { AppProps } from "next/app";
+import { Ifeloluwa } from "@components/title";
 
 import { ChakraProvider } from "@chakra-ui/react";
 import { Header } from "@components/header";
 import dataProvider, { GraphQLClient } from "@refinedev/hasura";
 import { appWithTranslation, useTranslation } from "next-i18next";
+import Icon from "react-icons-kit";
 
 const API_URL = "https://flowing-mammal-24.hasura.app/v1/graphql";
 
@@ -41,7 +44,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
     }
 
     return (
-      <ThemedLayoutV2 Header={() => <Header sticky />}>
+      <ThemedLayoutV2 Header={() => <Header sticky />} Title={Ifeloluwa}>
         <Component {...pageProps} />
       </ThemedLayoutV2>
     );
@@ -57,10 +60,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
 
   return (
     <>
-      <GitHubBanner />
       <RefineKbarProvider>
         {/* You can change the theme colors here. example: theme={RefineThemes.Magenta} */}
-        <ChakraProvider theme={RefineThemes.Blue}>
+        <ChakraProvider theme={RefineThemes.Green}>
           <DevtoolsProvider>
             <Refine
               routerProvider={routerProvider}
@@ -77,9 +79,11 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
                   meta: {
                     canDelete: true,
                   },
+                  options: { label: "Home" },
+                  icon: <Icon icon={home} size={20} />,
                 },
                 {
-                  name: "categories",
+                  name: "mail",
                   list: "/categories",
                   create: "/categories/create",
                   edit: "/categories/edit/:id",
@@ -87,6 +91,20 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
                   meta: {
                     canDelete: true,
                   },
+                  options: { label: "Mail" },
+                  icon: <Icon icon={mail} size={20} />,
+                },
+                {
+                  name: "order",
+                  list: "/order",
+                  options: { label: "Order" },
+                  icon: <Icon icon={phone} size={20} />,
+                },
+                {
+                  name: "log-out",
+                  list: "/log_out",
+                  options: { label: "Log Out" },
+                  icon: <Icon icon={logOut} size={20} />,
                 },
               ]}
               options={{
@@ -96,9 +114,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout): JSX.Element {
               }}
             >
               {renderComponent()}
+
               <RefineKbar />
-              <UnsavedChangesNotifier />
-              <DocumentTitleHandler />
             </Refine>
             <DevtoolsPanel />
           </DevtoolsProvider>
